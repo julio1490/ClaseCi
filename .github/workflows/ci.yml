@@ -20,8 +20,21 @@ jobs:
         with:
           node-version: 22
 
-      - name:  validar codigo HTML
+      - name: validar codigo HTML
         run: |
           echo "inicio"
           npx html-validate "**/*.html"
           echo "fin"
+
+      - name: mostrar datos del payload del PR
+        if: github.event_name == 'pull_request'
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          echo "Evento: $EVENT_NAME"
+          echo "PR: #$PR_NUMBER"
+          echo "Rama origen: $HEAD_REF"
+          echo "Rama destino: $BASE_REF"
